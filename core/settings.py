@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'compressor',
+    'dbbackup',
 ]
 
 MIDDLEWARE = [
@@ -100,6 +101,12 @@ DATABASES = {
     }
 }
 
+# Database backup
+# https://django-dbbackup.readthedocs.io/en/master/configuration.html
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': 'dbbackups'}
+
 # Cache
 CACHES = {
     'default': {
@@ -121,6 +128,11 @@ CELERY_BEAT_SCHEDULE = {
     'update-csv-to-cloud-task':{
         'task': 'dashboard.tasks.update_to_cloud_task',
         'schedule':crontab(minute=0, hour=9),
+        'args': (),
+    },
+    'db-backup':{
+        'task': 'dashboard.tasks.db_backup_to_file',
+        'schedule':crontab(minute=0, hour=0, day_of_week=0, day_of_month=1),
         'args': (),
     }
 }
