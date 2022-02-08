@@ -1,0 +1,24 @@
+From 6588e8aacc5d463ff1fd543800cd18d197b097ff Mon Sep 17 00:00:00 2001
+From: irfus <irfan@irfus.in>
+Date: Sat, 11 Dec 2021 15:33:04 +0530
+Subject: [PATCH] Add django-dbbackup to requirements.
+
+---
+ requirements.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/requirements.txt b/requirements.txt
+index d373291..889c745 100644
+--- a/requirements.txt
++++ b/requirements.txt
+@@ -37,4 +37,5 @@ cssmin
+ jsmin
+ xlrd==1.2.0
+ oauth2client==4.1.3
+-gspread==3.7.0
+\ No newline at end of file
++gspread==3.7.0
++django-dbbackup==3.3.0
+-- 
+2.34.0
+

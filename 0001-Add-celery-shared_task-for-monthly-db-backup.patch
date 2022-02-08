@@ -1,0 +1,42 @@
+From 70c38d3a48fc7495ca6987a7853c2c3deeef6dfd Mon Sep 17 00:00:00 2001
+From: irfus <irfan@irfus.in>
+Date: Sat, 11 Dec 2021 18:37:46 +0530
+Subject: [PATCH] Add celery shared_task for monthly db backup.
+
+---
+ core/settings.py   | 5 +++++
+ dashboard/tasks.py | 5 +++++
+ 2 files changed, 10 insertions(+)
+
+diff --git a/core/settings.py b/core/settings.py
+index a2d36f9..6cdd997 100644
+--- a/core/settings.py
++++ b/core/settings.py
+@@ -129,6 +129,11 @@ CELERY_BEAT_SCHEDULE = {
+         'task': 'dashboard.tasks.update_to_cloud_task',
+         'schedule':crontab(minute=0, hour=9),
+         'args': (),
++    },
++    'db-backup':{
++        'task': 'dashboard.tasks.db_backup_to_file',
++        'schedule':crontab(minute=0, hour=0, day_of_week=0, day_of_month=1),
++        'args': (),
+     }
+ }
+ 
+diff --git a/dashboard/tasks.py b/dashboard/tasks.py
+index 027584b..fb7f854 100644
+--- a/dashboard/tasks.py
++++ b/dashboard/tasks.py
+@@ -81,3 +81,8 @@ def update_to_cloud_task():
+     objects = Question.objects.values(*fields)
+     update_local_csv(objects, fields, csv_file_name)
+     update_sheet(client, spreadsheet, csv_file_name)
++
++
++@shared_task
++def db_backup_to_file():
++    management.call_command('dbbackup', interactive=False)
+-- 
+2.34.0
+

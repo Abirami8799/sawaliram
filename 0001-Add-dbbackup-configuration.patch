@@ -1,0 +1,44 @@
+From 85452c33e825bcb8e4c3d8ac945ebb9bba2c6463 Mon Sep 17 00:00:00 2001
+From: irfus <irfan@irfus.in>
+Date: Sat, 11 Dec 2021 16:30:02 +0530
+Subject: [PATCH] Add dbbackup configuration.
+
+---
+ core/settings.py | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/core/settings.py b/core/settings.py
+index 201374f..c4af326 100644
+--- a/core/settings.py
++++ b/core/settings.py
+@@ -47,6 +47,7 @@ INSTALLED_APPS = [
+     'django.contrib.messages',
+     'django.contrib.staticfiles',
+     'compressor',
++    'dbbackup',
+ ]
+ 
+ MIDDLEWARE = [
+@@ -100,6 +101,12 @@ DATABASES = {
+     }
+ }
+ 
++# Database backup
++# https://django-dbbackup.readthedocs.io/en/master/configuration.html
++
++DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
++DBBACKUP_STORAGE_OPTIONS = {'location': 'dbbackups'}
++
+ # Cache
+ CACHES = {
+     'default': {
+@@ -250,4 +257,4 @@ COMPRESS_JS_FILTERS = ["compressor.filters.jsmin.JSMinFilter"]
+ 
+ 
+ HTML_MINIFY = True
+-KEEP_COMMENTS_ON_MINIFYING = True
+\ No newline at end of file
++KEEP_COMMENTS_ON_MINIFYING = True
+-- 
+2.34.0
+
